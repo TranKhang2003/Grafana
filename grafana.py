@@ -1,5 +1,5 @@
 import requests
-from flask import Flask, jsonify
+# from flask import Flask, jsonify
 from bs4 import BeautifulSoup
 import pandas as pd
 
@@ -67,6 +67,10 @@ for col in cols:
 #     .rank(method='min', ascending=False, na_option='bottom')
 #     .astype(int)
 # )
+print(df2)
+# print(df2[1])
+# df2 = df2[1]
+df2 = df2.iloc[[0]]
 print(df2)
 df2.to_csv("fbb_qos_all_provinces.csv", index=False, encoding="utf-8-sig")
 # @app.route("/api/get-bsc")
