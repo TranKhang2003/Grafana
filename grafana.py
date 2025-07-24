@@ -63,7 +63,7 @@ def compu_rank(col):
         .astype(int)
     )
 
-for col in cols:
+for col in cols[2:].copy():
     compu_rank(col)
 # df2['RANK_FBB_QOS_T1'] = (
 #     df2['FBB_QOS_T1']
