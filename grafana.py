@@ -2,6 +2,9 @@ import requests
 # from flask import Flask, jsonify
 from bs4 import BeautifulSoup
 import pandas as pd
+from datetime import datetime, timedelta
+from datetime import date
+# import pandas as pd
 
 # app = Flask(__name__)
 
@@ -68,8 +71,32 @@ for col in cols:
 #     .astype(int)
 # )
 print(df2)
-# print(df2[1])
-# df2 = df2[1]
+def time(df):
+    # Tính số ngày cần (mỗi 63 hàng là 1 ngày)
+    num_days = len(result) // 63
+    today = date.today()
+
+    # Tạo danh sách các ngày
+    start_date = pd.Timestamp(today)
+    dates = pd.date_range(start=start_date, periods=num_days, freq='D')
+
+    # Lặp lại mỗi ngày 63 lần
+    repeated_dates = dates.repeat(63)
+
+    # Nếu df không chia hết cho 63, cần thêm phần còn lại
+    if len(df) > len(repeated_dates):
+        last_day = dates[-1] + pd.Timedelta(days=1)
+        extra = len(df) - len(repeated_dates)
+        repeated_dates = repeated_dates.append(pd.Index([last_day] * extra))
+
+    # Gán vào cột 'time'
+    df['time'] = repeated_dates.values
+
+    return df
+
+df2 = time(df2)
+
+
 df2 = df2.iloc[[0]]
 print(df2)
 df2.to_csv("fbb_qos_all_provinces.csv", index=False, encoding="utf-8-sig")
